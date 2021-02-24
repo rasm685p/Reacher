@@ -1,15 +1,16 @@
-const PORT = 95311;
+const PORT = 46991;
 
-const express = require("express");
-const app = express();
-const socket = require("socket.io");
-
-const server = app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+const httpServer = require("http").createServer();
+const io = require("socket.io")(httpServer, {
+    cors: {
+        origin: "*",
+    },
 });
-
-const io = socket(server);
 
 io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
+});
+
+httpServer.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
 });
